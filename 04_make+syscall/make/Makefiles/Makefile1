@@ -1,0 +1,8 @@
+exercise1: exercise1.o
+	gcc -o exercise1 exercise1.o
+
+exercise1.o: exercise1.c
+	gcc -c exercise1.c
+
+clean:
+	rm -f *.o exercise1
