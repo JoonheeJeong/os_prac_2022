@@ -1,0 +1,3 @@
+Mission: successful
+Last Mission: unsuccessful
+Next Mission: successful upon capture of taget
