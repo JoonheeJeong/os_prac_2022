@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <linux/kdev_t.h>
-#include "gpio_driver.h"
+#include "led1_gpio_driver.h"
 #include <errno.h>
 
 void blink_led(int fd)
@@ -37,10 +37,10 @@ int main()
         }
     }
 
+    // open the driver file
     int fd = open(DEV_FILE_NAME, O_RDWR|O_NONBLOCK);
-
     if (fd < 0) {
-        fprintf(stderr, "Error: Cannot open GPIO Driver\n");
+        fprintf(stderr, "[Error:%d] Cannot open GPIO Driver\n", errno);
         exit(1);
     }
 

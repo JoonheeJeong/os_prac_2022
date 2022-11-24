@@ -3,7 +3,7 @@
 #include <linux/kernel.h>
 #include <linux/gpio.h>
 #include <linux/uaccess.h> // copy_to/from_user
-#include "gpio_driver.h"
+#include "led1_gpio_driver.h"
 
 static int gpio_plus01 = 4;
 
@@ -38,8 +38,10 @@ static struct file_operations gpio_fops = {
 
 static int gpio_open(struct inode *inode, struct file *filp)
 {
-    if (gpio_request(gpio_plus01, "gpio_plus01") != 0) {
-        printk(KERN_ERR "ERROR: gpio_request\n");
+    int err;
+
+    if ((err = gpio_request(gpio_plus01, "gpio_plus01") != 0)) {
+        printk(KERN_ERR "[ERROR:%d] gpio_request\n", err);
         return -1;
     } else {
         printk(KERN_INFO "gpio_plus01 OPEN COMPLETE\n");
@@ -117,6 +119,9 @@ static int __init gpio_init(void)
 
 static void __exit gpio_exit(void)
 {
+    // free the used memory
+    gpio_free(gpio_plus01);
+
     unregister_chrdev(DEV_GPIO_MAJOR, DEV_GPIO_NAME);
     printk(KERN_INFO "Remove GPIO driver ... Done!\n");
 }
